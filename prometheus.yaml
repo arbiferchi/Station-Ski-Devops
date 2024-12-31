@@ -1,0 +1,29 @@
+global:
+  scrape_interval:     15s
+
+  external_labels:
+    monitor: 'codelab-monitor'
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+
+  - job_name: 'jenkins'
+    metrics_path: '/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['192.168.4.222:8080']
+        labels:
+          group: 'production'
+
+  - job_name: 'springboot'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ '192.168.4.222:8089' ]  # Your application endpoint
+        labels:
+          group: 'production'
+
+
